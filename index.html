@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link rel='stylesheet' type='text/css' href='' />
+        <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+        <style>
+        body {
+            font:normal 12px/20px 'Redacted Script';
+            width:400px;
+            background:#fff;
+            margin:20px auto;
+        }
+        #test {
+            box-shadow:0 0px 15px #000;
+            background:#fff;
+            width:400px;
+            height:400px;
+            overflow:auto;
+            position:relative;
+        }
+        ::-webkit-scrollbar {
+            width:0;
+            display:none;
+        }
+        .d3-scroll-track {
+            position:absolute;
+            top:0;
+            right:0;
+            width:10px;
+            background:#eee;
+        }
+        .d3-scroll-button {
+            position:absolute;
+            width:10px;
+            background:#777;
+        }
+        </style>
+    </head>
+    <body>
+        <div id='test'></div>
+        <script src='d3.v3.js'></script>
+        <script src='d3.scroll.js'></script>
+        <script src='site.js'></script>
+    </body>
+</html>
