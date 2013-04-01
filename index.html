@@ -6,7 +6,6 @@
         <meta http-equiv='content-type' content='text/html; charset=utf-8' />
         <style>
         body {
-            font:normal 12px/20px 'Redacted Script';
             width:400px;
             background:#fff;
             margin:20px auto;
@@ -18,6 +17,13 @@
             height:400px;
             overflow:auto;
             position:relative;
+            font:normal 12px/20px 'Redacted Script';
+        }
+        a {
+            text-align:center;
+            display:block;
+            color:magenta;
+            padding:10px;
         }
         ::-webkit-scrollbar {
             width:0;
@@ -39,6 +45,7 @@
     </head>
     <body>
         <div id='test'></div>
+        <a href='https://github.com/tmcw/d3.scroll'>d3.scroll</a>
         <script src='d3.v3.js'></script>
         <script src='d3.scroll.js'></script>
         <script src='site.js'></script>
