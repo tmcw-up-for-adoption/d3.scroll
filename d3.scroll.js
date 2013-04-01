@@ -1,21 +1,34 @@
 d3.scroll = function(selection) {
     var track, button,
-        slowHide = debounce(hide, 500);
+        timeout,
+        elem = selection.node(),
+        slowHide = debounce(hide, 800),
+        dragbehavior = d3.behavior.drag()
+            .on('dragstart', clearDebounce)
+            .on('drag', drag);
+
+    selection.on('scroll.d3-scroll', scroll);
+    setup();
 
     function debounce(func, threshold, execAsap) {
-        var timeout;
         return function debounced() {
             var obj = this, args = arguments;
             function delayed() {
                 if (!execAsap) func.apply(obj, args);
                 timeout = null;
             }
-
-            if (timeout) clearTimeout(timeout);
+            if (timeout) clearDebounce();
             else if (execAsap) func.apply(obj, args);
-
             timeout = setTimeout(delayed, threshold || 100);
         };
+    }
+
+    function clearDebounce() {
+        if (timeout) clearTimeout(timeout);
+    }
+
+    function drag() {
+        elem.scrollTop += d3.event.dy * (elem.scrollHeight / elem.offsetHeight);
     }
 
     function show() {
@@ -34,32 +47,22 @@ d3.scroll = function(selection) {
     }
 
     function setup() {
-        track = selection
-            .append('div')
+        track = selection.append('div')
             .attr('class', 'd3-scroll-track');
-        button = track
-            .append('div')
-            .attr('class', 'd3-scroll-button');
+        button = track.append('div')
+            .attr('class', 'd3-scroll-button')
+            .call(dragbehavior);
     }
 
-    function buttonHeight(elem) {
-        return ((elem.offsetHeight * elem.offsetHeight) / elem.scrollHeight);
-    }
-
-    function buttonTop(elem) {
-        return (elem.offsetHeight) * (elem.scrollTop / elem.scrollHeight);
-    }
-
-    selection.on('scroll.d3-scroll', function() {
+    function scroll() {
         show();
-        track
-            .style('top', this.scrollTop + 'px')
-            .style('height', this.offsetHeight + 'px');
-        button
-            .style('height', buttonHeight(this) + 'px')
-            .style('top', buttonTop(this) + 'px');
+        track.style({
+            top: this.scrollTop + 'px', height: this.offsetHeight + 'px'
+        });
+        button.style({
+            height: (this.offsetHeight * this.offsetHeight) / this.scrollHeight + 'px',
+            top: this.offsetHeight * (this.scrollTop / this.scrollHeight) + 'px'
+        });
         slowHide();
-    });
-
-    setup();
+    }
 };
